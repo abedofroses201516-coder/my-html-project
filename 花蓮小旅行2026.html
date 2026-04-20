@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 花蓮小旅行</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean: #1a5f7a;
+    --ocean-light: #2d8fa8;
+    --ocean-pale: #e8f4f8;
+    --sand: #f5efe6;
+    --sand-dark: #e8d9c4;
+    --forest: #3a6b4a;
+    --forest-light: #5a9b6a;
+    --sunset: #e07b4a;
+    --sunset-light: #f5a06a;
+    --night: #1a2535;
+    --text-main: #1e2d3d;
+    --text-soft: #5a6b7a;
+    --text-light: #8a9baa;
+    --white: #ffffff;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 20px rgba(26,95,122,0.12);
+    --shadow-lg: 0 8px 40px rgba(26,95,122,0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--sand);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, var(--night) 0%, var(--ocean) 60%, var(--ocean-light) 100%);
+    color: white;
+    padding: 56px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200'%3E%3Cpath d='M0 120 Q50 80 100 110 Q150 140 200 100 Q250 60 300 95 Q350 130 400 90 L400 200 L0 200Z' fill='rgba(255,255,255,0.05)'/%3E%3Cpath d='M0 150 Q60 110 120 140 Q180 170 240 130 Q300 90 360 120 Q380 130 400 115 L400 200 L0 200Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E") bottom/cover no-repeat;
+  }
+  .hero-inner { position: relative; max-width: 680px; margin: 0 auto; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 300;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(32px, 8vw, 52px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero-sub {
+    font-size: 15px;
+    opacity: 0.75;
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+  .hero-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .pill {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 36px 0 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--sand-dark);
+  }
+
+  /* ── DAY HEADER ── */
+  .day-header {
+    display: flex; align-items: center; gap: 16px;
+    margin: 32px 0 16px;
+  }
+  .day-badge {
+    background: var(--ocean);
+    color: white;
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 3px 12px rgba(26,95,122,0.3);
+  }
+  .day-badge.forest { background: var(--forest); box-shadow: 0 3px 12px rgba(58,107,74,0.3); }
+  .day-badge.sunset { background: var(--sunset); box-shadow: 0 3px 12px rgba(224,123,74,0.3); }
+  .day-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+  .day-date { font-size: 13px; color: var(--text-soft); margin-top: 2px; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--ocean-pale), var(--sand-dark));
+    border-radius: 2px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 12px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px; top: 14px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--ocean-pale);
+    border: 2px solid var(--ocean);
+    z-index: 1;
+  }
+  .timeline-item.meal::before { border-color: var(--sunset); background: #fef0e8; }
+  .timeline-item.lodging::before { border-color: var(--forest); background: #eaf3ec; }
+  .timeline-item.transport::before { border-color: var(--text-light); background: #f0f2f4; }
+  .timeline-item.optional::before { border-color: var(--sand-dark); background: var(--sand); border-style: dashed; }
+
+  .event-card {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+    border-left: 3px solid var(--ocean);
+  }
+  .event-card.meal { border-color: var(--sunset); }
+  .event-card.lodging { border-color: var(--forest); }
+  .event-card.transport { border-color: var(--text-light); }
+  .event-card.optional { border-color: var(--sand-dark); background: #fafaf8; }
+
+  .event-time {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ocean);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .meal .event-time { color: var(--sunset); }
+  .lodging .event-time { color: var(--forest); }
+  .transport .event-time { color: var(--text-soft); }
+  .optional .event-time { color: var(--text-light); }
+
+  .event-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .event-meta {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 8px;
+  }
+  .meta-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--ocean-pale);
+    color: var(--ocean);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .meta-chip.people { background: #eaf3ec; color: var(--forest); }
+  .meta-chip.note { background: #fff3ed; color: #b85c28; }
+  .meta-chip.addr { background: #f5f5f5; color: var(--text-soft); font-size: 11px; }
+
+  /* ── INFO CARDS ── */
+  .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 540px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+
+  .info-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+  .info-card-icon { font-size: 22px; margin-bottom: 8px; }
+  .info-card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-main);
+  }
+  .info-card p { font-size: 13px; color: var(--text-soft); line-height: 1.7; }
+  .info-card strong { color: var(--text-main); font-weight: 500; }
+  .info-card .tel { color: var(--ocean); font-weight: 500; }
+
+  /* ── TRANSPORT BLOCK ── */
+  .train-card {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .train-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .train-icon.thsr { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+  .train-number { font-size: 12px; color: var(--text-light); margin-bottom: 2px; }
+  .train-route {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--text-main); margin-bottom: 4px;
+  }
+  .train-time { font-size: 13px; color: var(--ocean); font-weight: 500; margin-bottom: 4px; }
+  .train-meta { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  /* ── DIVIDER ── */
+  .wave-divider {
+    width: 100%; overflow: hidden;
+    line-height: 0; margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--night);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .optional-label {
+    font-size: 11px;
+    color: var(--text-light);
+    background: var(--sand-dark);
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .room-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .room-table th {
+    background: var(--ocean-pale);
+    color: var(--ocean);
+    padding: 6px 10px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--sand-dark);
+  }
+  .room-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--sand-dark);
+    color: var(--text-soft);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">✈ 家族旅行計畫</div>
+    <h1>花蓮小旅行</h1>
+    <div class="hero-sub">2026 年 5 月 1 日－3 日　共 18 人</div>
+    <div class="hero-pills">
+      <span class="pill">🏨 潭心閣民宿</span>
+      <span class="pill">🚗 花蓮全能租車</span>
+      <span class="pill">🌊 壽豐・吉安・花蓮市</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ══ 交通總覽 ══ -->
+  <div class="section-title">交通總覽</div>
+
+  <!-- 出發 -->
+  <div class="day-header">
+    <div class="day-badge sunset">出發　4/30 (四)</div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon thsr">🚄</div>
+    <div>
+      <div class="train-number">高鐵 654 次</div>
+      <div class="train-route">嘉義 ▶ 板橋</div>
+      <div class="train-time">15:32 → 16:50</div>
+      <div class="train-meta">
+        <span class="meta-chip">👴👵 阿公阿嬤</span>
+        <span class="meta-chip">7 車 4D/4E</span>
+        <span class="meta-chip note">涵涵協助接送</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon thsr">🚄</div>
+    <div>
+      <div class="train-number">高鐵 654 次</div>
+      <div class="train-route">嘉義 ▶ 新竹</div>
+      <div class="train-time">15:32 → 16:23</div>
+      <div class="train-meta">
+        <span class="meta-chip">👨‍👩‍👧 又仙家 (3)</span>
+        <span class="meta-chip">7 車 4A/4B/4C</span>
+        <span class="meta-chip note">阿勇協助接送</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5/1 前往花蓮 -->
+  <div class="day-header">
+    <div class="day-badge">前往花蓮　5/1 (五)</div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon">🚂</div>
+    <div>
+      <div class="train-number">自強 170 次</div>
+      <div class="train-route">新竹 ▶ 花蓮</div>
+      <div class="train-time">08:36 → 12:44</div>
+      <div class="train-meta">
+        <span class="meta-chip people">又仙家＋阿勇家＋又永舅舅 (9)</span>
+        <span class="meta-chip">3車 38/40/41；4車 41-45；11車 9</span>
+        <span class="meta-chip note">午餐：自備</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon">🚂</div>
+    <div>
+      <div class="train-number">自強 280 次</div>
+      <div class="train-route">台北 ▶ 花蓮</div>
+      <div class="train-time">09:45 → 12:11</div>
+      <div class="train-meta">
+        <span class="meta-chip people">又申阿姨家 (4)</span>
+        <span class="meta-chip">8車 42/44/46</span>
+        <span class="meta-chip note">午餐：自備</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon">🚂</div>
+    <div>
+      <div class="train-number">自強 170 次</div>
+      <div class="train-route">板橋 ▶ 花蓮</div>
+      <div class="train-time">09:47 → 12:44</div>
+      <div class="train-meta">
+        <span class="meta-chip people">阿公阿嬤＋丁幼阿姨家 (5)</span>
+        <span class="meta-chip note">午餐：自備</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5/3 返程 -->
+  <div class="day-header">
+    <div class="day-badge sunset">返程　5/3 (日)</div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon">🚂</div>
+    <div>
+      <div class="train-number">自強 181 次</div>
+      <div class="train-route">花蓮 ▶ 板橋</div>
+      <div class="train-time">18:02 → 20:20</div>
+      <div class="train-meta">
+        <span class="meta-chip people">阿公阿嬤＋丁幼阿姨家＋又申阿姨家 (9)</span>
+        <span class="meta-chip">2車 45號起</span>
+        <span class="meta-chip note">晚餐：公園野餐 Uber Eats / Food Panda</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon">🚂</div>
+    <div>
+      <div class="train-number">自強 285 次</div>
+      <div class="train-route">花蓮 ▶ 新竹</div>
+      <div class="train-time">18:15 → 21:54</div>
+      <div class="train-meta">
+        <span class="meta-chip people">又仙家＋阿勇家＋又永舅舅 (9)</span>
+        <span class="meta-chip">6車 17/19/21/23/29/33/35/37/39</span>
+        <span class="meta-chip note">晚餐：騰雲附餐</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5/4 返程嘉義 -->
+  <div class="day-header">
+    <div class="day-badge sunset">返嘉義　5/4 (一)</div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon thsr">🚄</div>
+    <div>
+      <div class="train-number">高鐵 657 次</div>
+      <div class="train-route">板橋 ▶ 嘉義</div>
+      <div class="train-time">15:55 → 17:13</div>
+      <div class="train-meta">
+        <span class="meta-chip">👴👵 阿公阿嬤</span>
+        <span class="meta-chip">7車 1D/1E</span>
+        <span class="meta-chip note">涵涵協助接送</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="train-card">
+    <div class="train-icon thsr">🚄</div>
+    <div>
+      <div class="train-number">高鐵 657 次</div>
+      <div class="train-route">新竹 ▶ 嘉義</div>
+      <div class="train-time">16:22 → 17:13</div>
+      <div class="train-meta">
+        <span class="meta-chip">👨‍👩‍👧 又仙家 (3)</span>
+        <span class="meta-chip">7車 1A/1B/1C</span>
+        <span class="meta-chip note">阿勇協助接送</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ 住宿 & 租車 ══ -->
+  <div class="section-title">住宿 &amp; 租車</div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-icon">🏡</div>
+      <div class="info-card-title">潭心閣民宿</div>
+      <p>
+        <strong>入住：</strong>5/1–5/3<br>
+        <strong>Check-in：</strong>15:00–19:00<br>
+        <strong>退房：</strong>隔日 11:00 前<br><br>
+        花蓮縣壽豐鄉池南村林園路 3-1 號<br>
+        <span class="tel">📞 0988-120-877</span><br><br>
+        <strong>房型：</strong>4 人房 ×3（阿勇家）<br>
+        2 人房 ×4
+      </p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-icon">🚗</div>
+      <div class="info-card-title">花蓮全能租車</div>
+      <p>
+        <strong>取車：</strong>5/1（週五）13:00<br>
+        <strong>還車：</strong>5/3（週日）17:00<br><br>
+        花蓮縣花蓮市國聯一路 21-1 號<br>
+        <span class="tel">📞 038-343-222</span>
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ══ 第一天 ══ -->
+  <div class="section-title">每日行程</div>
+
+  <div class="day-header">
+    <div class="day-badge">Day 1</div>
+    <div>
+      <div class="day-title">抵達花蓮</div>
+      <div class="day-date">5 月 1 日（週五）</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item transport">
+      <div class="event-card transport">
+        <div class="event-time">12:11 – 12:44　抵達</div>
+        <div class="event-title">🚉 花蓮火車站　各組陸續到站</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item transport">
+      <div class="event-card transport">
+        <div class="event-time">13:00　取車</div>
+        <div class="event-title">🚗 花蓮全能租車</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+          <span class="meta-chip addr">花蓮市國聯一路 21-1 號</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="event-card">
+        <div class="event-time">13:30 – 14:30</div>
+        <div class="event-title">🌿 美崙山公園　散步 · 午睡 · 下午茶</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="event-card">
+        <div class="event-time">15:00</div>
+        <div class="event-title">🌊 七星潭賞星廣場</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item meal">
+      <div class="event-card meal">
+        <div class="event-time">18:00　晚餐（預定 18:00–18:30）</div>
+        <div class="event-title">🍗 松湖驛站　環湖散步 &amp; 晚餐</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+          <span class="meta-chip note">🔖 已預定 2 隻烤雞</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item lodging">
+      <div class="event-card lodging">
+        <div class="event-time">19:30　入住</div>
+        <div class="event-title">🏡 潭心閣民宿　休息</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item optional">
+      <div class="event-card optional">
+        <div class="event-time">19:30 +　自由參加<span class="optional-label">選擇性</span></div>
+        <div class="event-title">🌙 鯉魚潭　環湖散步 · 看螢火蟲</div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ 第二天 ══ -->
+  <div class="day-header">
+    <div class="day-badge forest">Day 2</div>
+    <div>
+      <div class="day-title">山林探索</div>
+      <div class="day-date">5 月 2 日（週六）</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item lodging">
+      <div class="event-card lodging">
+        <div class="event-time">07:30　早餐時間 7:30–10:00</div>
+        <div class="event-title">☕ 潭心閣民宿　早餐</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="event-card">
+        <div class="event-time">08:30 – 11:00</div>
+        <div class="event-title">🌲 池南森林遊樂區</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)，可分頭前往</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item meal">
+      <div class="event-card meal">
+        <div class="event-time">11:30　午餐</div>
+        <div class="event-title">🥬 添丁野菜園</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+          <span class="meta-chip note">🔖 已預定 2 桌＋烤魚</span>
+          <span class="meta-chip addr">LINE：0920-771-112</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="event-card">
+        <div class="event-time">下午 – 17:00</div>
+        <div class="event-title">🏭 林田山林業文化園區　散步 · 午睡 · 下午茶</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item meal">
+      <div class="event-card meal">
+        <div class="event-time">18:00　晚餐（最後點餐 18:00）</div>
+        <div class="event-title">🐟 立川漁場</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+          <span class="meta-chip note">🔖 已預定 2 桌</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item lodging">
+      <div class="event-card lodging">
+        <div class="event-time">19:30　回民宿</div>
+        <div class="event-title">🏡 潭心閣民宿　休息</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item optional">
+      <div class="event-card optional">
+        <div class="event-time">19:30 +　自由參加<span class="optional-label">選擇性</span></div>
+        <div class="event-title">🌙 鯉魚潭 (螢火蟲) 　或　🍢 東大門夜市</div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ 第三天 ══ -->
+  <div class="day-header">
+    <div class="day-badge sunset">Day 3</div>
+    <div>
+      <div class="day-title">花蓮市區巡遊 &amp; 賦歸</div>
+      <div class="day-date">5 月 3 日（週日）</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item lodging">
+      <div class="event-card lodging">
+        <div class="event-time">07:30 – 08:45　早餐時間 7:30–10:00</div>
+        <div class="event-title">☕ 潭心閣民宿　早餐 &amp; 退房準備</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="event-card">
+        <div class="event-time">09:15 – 10:00</div>
+        <div class="event-title">⛩️ 吉安慶修院</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="event-card">
+        <div class="event-time">10:15</div>
+        <div class="event-title">🌊 太平洋公園－南濱公園</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)，可分頭前往</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item meal">
+      <div class="event-card meal">
+        <div class="event-time">11:30　午餐</div>
+        <div class="event-title">🐟 娜滋滋烤魚</div>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+          <span class="meta-chip note">🔖 已預定 2 桌</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="event-card">
+        <div class="event-time">13:00 – 16:30</div>
+        <div class="event-title">🌳 松園別館 ／ 將軍府 ／ 美崙溪溪畔公園</div>
+        <p style="font-size:13px;color:var(--text-soft);margin-top:6px;line-height:1.6;">散步 · 午睡 · 下午茶<br>🍔 Uber Eats / Food Panda 野餐</p>
+        <div class="event-meta">
+          <span class="meta-chip people">ALL (18)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item transport">
+      <div class="event-card transport">
+        <div class="event-time">16:30 – 17:00</div>
+        <div class="event-title">🚗 司機載乘客前往火車站休息　／　還車</div>
+        <div class="event-meta">
+          <span class="meta-chip addr">花蓮全能租車　國聯一路 21-1 號</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item transport">
+      <div class="event-card transport">
+        <div class="event-time">18:02 / 18:15　出發</div>
+        <div class="event-title">🚉 花蓮火車站　各組搭車返程</div>
+        <div class="event-meta">
+          <span class="meta-chip">自強 181：阿公阿嬤＋丁幼阿姨家＋又申阿姨家 → 板橋</span>
+          <span class="meta-chip">自強 285：又仙家＋阿勇家＋又永舅舅 → 新竹</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ 色標說明 ══ -->
+  <div class="section-title">圖例說明</div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+    <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-soft);">
+      <span style="width:12px;height:12px;border-radius:50%;border:2px solid var(--ocean);background:var(--ocean-pale);display:inline-block;"></span> 景點 / 活動
+    </span>
+    <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-soft);">
+      <span style="width:12px;height:12px;border-radius:50%;border:2px solid var(--sunset);background:#fef0e8;display:inline-block;"></span> 餐食
+    </span>
+    <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-soft);">
+      <span style="width:12px;height:12px;border-radius:50%;border:2px solid var(--forest);background:#eaf3ec;display:inline-block;"></span> 住宿
+    </span>
+    <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-soft);">
+      <span style="width:12px;height:12px;border-radius:50%;border:2px solid var(--text-light);background:#f0f2f4;display:inline-block;"></span> 交通
+    </span>
+    <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-soft);">
+      <span style="width:12px;height:12px;border-radius:50%;border:2px dashed var(--sand-dark);background:var(--sand);display:inline-block;"></span> 自由參加
+    </span>
+  </div>
+
+</div><!-- /content -->
+
+<div class="footer">
+  2026 花蓮小旅行　Family Trip ✦ 共 18 人
+</div>
+
+</body>
+</html>
